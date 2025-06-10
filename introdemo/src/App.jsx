@@ -1,7 +1,17 @@
-const App = ()=> {
+const Hello = (props) =>{
+  console.log("From Hello Component");
   return (
     <div>
-      <h1>Hello World</h1>
+      <p>Hello {props.name} and all the best for your  {props.age} birthday </p>
+    </div>
+  )
+}
+
+const App = ()=> {
+  
+  return (
+    <div>
+      <h1>My best Name Stand</h1> 
     </div>
   )
 }
