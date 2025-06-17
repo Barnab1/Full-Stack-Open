@@ -1,19 +1,32 @@
-const Hello = (props) =>{
-  console.log("From Hello Component");
+import {useState} from 'react';
+
+const Display = (props) =>{
+  return (
+    <div>{props.counter}</div>
+  )
+}
+
+const Button = (props) =>{
+  return (
+    <button onClick = {props.onClick}>{props.text}</button>
+  )
+}
+
+const App = () =>{
+  const [counter, setCounter] = useState(0);
+
+  const increaseByOne = () => setCounter(counter +1);
+  const setToZero = () => setCounter(0);
+  const decreaseByOne = () => setCounter(counter - 1);
+
   return (
     <div>
-      <p>Hello {props.name} and all the best for your  {props.age} birthday </p>
+      <Display counter = {counter} />
+      <Button onClick = {increaseByOne} text = "plus"/>
+      <Button onClick = {setToZero} text = "Zero"/>
+      <Button onClick = {decreaseByOne} text = "minus"/>
     </div>
   )
 }
 
-const App = ()=> {
-  
-  return (
-    <div>
-      <h1>My best Name Stand</h1> 
-    </div>
-  )
-}
-
-export  default App;
+export default App;
