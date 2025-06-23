@@ -1,11 +1,8 @@
 import {useState} from 'react';
 
-const hello = (who)=>{
+  const Button = (props)=><button onClick= {props.onClick}>{props.text}</button>
+  const Display = (props)=><div>{props.value}</div>
 
-  return ()=> console.log('Hello', who);
-}
-
- 
   const App = () => {
   const [value, setValue] = useState(10)
   
@@ -17,11 +14,10 @@ const hello = (who)=>{
   
   return (
     <div>
-      {value}
-
-      <button onClick={setToValue(1000)}>thousand</button>
-      <button onClick={setToValue(0)}>reset</button>
-      <button onClick={setToValue(value + 1)}>increment</button>
+      <Display value={value}/>
+      <Button onClick={setToValue(1000)} text="Thousand"/>
+      <Button onClick={setToValue(0)} text="reset"/>
+      <Button onClick={setToValue(value+1)} text="Increment" />
     </div>
   )
 }
