@@ -2,12 +2,20 @@ import {useState} from 'react';
 
 const Button = ({onClick, text})=> <button onClick={onClick}>{text}</button>
 
+const StatisticLine = ({text, value})=>{
+  return <div>{text}: {value}</div>
+}
 const Statistics = (props)=>{
 
   let good = props.good;
   let neutral = props.neutral;
   let bad = props.bad;
 
+  if(good === 0 & neutral === 0 & bad === 0){
+    return (
+      <div>No feedback given</div>
+    )
+  }
 
   const all = (numbers)=>numbers.reduce((prev, acc)=> prev + acc,0);
 
@@ -18,23 +26,24 @@ const Statistics = (props)=>{
 
    return ((impressions[0] *1)+(impressions[1]*0) + impressions[2]*(-1))/all(impressions)
   }
+  
   const positive = (impressions)=>
     { 
       if(all(impressions) === 0){
       return 0;
       }
-      return impressions[0]/all(impressions)
+      return `${impressions[0]/all(impressions)} %`;
     }
 
   return (
     <div>
       <h2>Statistics</h2>
-      <div>good {good}</div>
-      <div>neutral {neutral} </div>
-      <div>bad {bad}</div>
-      <div>all {all([good,neutral,bad])}</div>
-      <div>average {average([good,neutral,bad])} </div>
-      <div>positive {positive([good, neutral, bad])} %</div>
+      <StatisticLine text="good" value = {good}/>
+      <StatisticLine text="neutral" value = {neutral}/>
+      <StatisticLine text="bad" value = {bad}/>
+      <StatisticLine text="all" value = {all([good,neutral,bad])}/>
+      <StatisticLine text="average" value = {average([good,neutral,bad])}/>
+      <StatisticLine text="positive" value = {positive([good,neutral,bad])}/>
     </div>
   )
 }
