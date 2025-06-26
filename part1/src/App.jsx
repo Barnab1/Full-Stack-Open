@@ -3,7 +3,13 @@ import {useState} from 'react';
 const Button = ({onClick, text})=> <button onClick={onClick}>{text}</button>
 
 const StatisticLine = ({text, value})=>{
-  return <div>{text}: {value}</div>
+  return (
+    <tr>
+      <td>{text}</td>
+      <td>{value}</td>
+    </tr>
+  
+)
 }
 const Statistics = (props)=>{
 
@@ -12,7 +18,7 @@ const Statistics = (props)=>{
   let bad = props.bad;
 
   if(good === 0 & neutral === 0 & bad === 0){
-    return (
+    return ( 
       <div>No feedback given</div>
     )
   }
@@ -38,12 +44,22 @@ const Statistics = (props)=>{
   return (
     <div>
       <h2>Statistics</h2>
+      <table>
+        <thead>
+        <tr>
+          <th></th>
+          <th></th>
+        </tr>
+        </thead>
+        <tbody>
       <StatisticLine text="good" value = {good}/>
       <StatisticLine text="neutral" value = {neutral}/>
       <StatisticLine text="bad" value = {bad}/>
       <StatisticLine text="all" value = {all([good,neutral,bad])}/>
       <StatisticLine text="average" value = {average([good,neutral,bad])}/>
       <StatisticLine text="positive" value = {positive([good,neutral,bad])}/>
+      </tbody>
+      </table>
     </div>
   )
 }
