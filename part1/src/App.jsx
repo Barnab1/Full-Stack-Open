@@ -1,6 +1,7 @@
 import {useState} from 'react';
 
 const Button = ({onClick, text})=> <button onClick={onClick}>{text}</button>
+
 const App = () => {
 
   const anecdotes = [
@@ -12,19 +13,25 @@ const App = () => {
     'Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.',
     'Programming without an extremely heavy use of console.log is same as if a doctor would refuse to use x-rays or blood tests when diagnosing patients.',
     'The only way to go fast, is to go well.'
-  ]
+  ];
    
-  const [selected, setSelected] = useState(0)
+  const [selected, setSelected] = useState(0);
+  const [vote, setUserVote] = useState([0,0,0,0,0,0,0,0]);
 
+  console.log(vote)
   /**
    * Select a random number based on array length
    */
   const randomSelecter = (array)=> Math.floor(Math.random() * array.length );
-  
+  const handleVotes = (anecdoteIndex)=>{
+
+  }
+
   return (
     <div>
       {anecdotes[selected]}
-      <Button onClick={()=>setSelected(randomSelecter(anecdotes))} text="next anecdote"/>
+      <div>Has number of votes</div>
+      <Button onClick={()=> console.log('fine')} text="vote"/> 
     </div>
   )
 }
