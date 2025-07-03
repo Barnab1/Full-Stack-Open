@@ -1,5 +1,6 @@
 import Note from './components/Note';
 
+
 const App = ({notes})=>{
   return(
     <div>
@@ -13,7 +14,6 @@ const App = ({notes})=>{
     </div>
   )
 }
-
 
 
 
