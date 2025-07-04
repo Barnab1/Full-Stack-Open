@@ -1,15 +1,31 @@
-const Header = ({courseName}) => <h1>{courseName}</h1>
+const Header = ({courseName}) => <h2>{courseName}</h2>
 
 const Course = ({course})=>{
   return (
     <div>
-      <Header courseName={course.name}/>
-      <Content parts = {course.parts}/>
+      <h1>Web development curriculum</h1>
+      <div>
+            <Header courseName={course[0].name}/>
+            <Content parts = {course[0].parts}/>
+            <Total parts = {course[0].parts}/>
+      </div>
+      <div>
+          <Header courseName={course[1].name}/>
+          <Content parts = {course[1].parts}/>
+          <Total parts = {course[1].parts}/>
+      </div>
+     
     </div>
   )
 }
 
-//const Total = (props) => <p>Number of exercises {props.total}</p>
+const Total = ({parts}) => {
+  let total = parts.reduce(( sum,part)=>sum + part.exercises,0)
+
+  return (
+    <strong>total of {total} exercises</strong>
+  )
+}
 const Part = ({part})=>{
   return (
         <div>
@@ -31,7 +47,8 @@ const Content = ({parts})=>{
 }
 
 const App = () => {
-  const course = {
+  const course = [
+    {
     name: 'Half Stack application development',
     parts: [
       {
@@ -49,8 +66,34 @@ const App = () => {
         exercises: 14,
         id:3
       },
-    ],
+      {
+          name: 'Redux',
+          exercises: 11,
+          id: 4
+      }
+      
+    ]
+  },
+  {
+      name: 'Node.js',
+      id: 2,
+      parts: [
+        {
+          name: 'Routing',
+          exercises: 3,
+          id: 1
+        },
+        {
+          name: 'Middlewares',
+          exercises: 7,
+          id: 2
+        }
+      ]
   }
+
+
+  
+  ]
 
   return <Course course={course}/>
 }
