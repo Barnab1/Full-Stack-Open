@@ -8,7 +8,7 @@ const notes = [
         content: 'HTML is easy',
         important: true
     },
-    {
+    { 
         id:2,
         content: 'Browser can only execute Javascript',
         important: false
