@@ -1,57 +1,52 @@
-import Course from './components/Course.jsx';
-
-
+import { useState } from 'react'
 
 const App = () => {
-  const course = [
-    {
-    name: 'Half Stack application development',
-    parts: [
-      {
-        name: 'Fundamentals of React',
-        exercises: 10,
-        id:1
-      },
-      {
-        name: 'Using props to pass data',
-        exercises: 7, 
-        id:2
-      },
-      {
-        name: 'State of a component',
-        exercises: 14,
-        id:3
-      },
-      {
-          name: 'Redux',
-          exercises: 11,
-          id: 4
-      }
-      
-    ]
-  },
-  {
-      name: 'Node.js',
-      id: 2,
-      parts: [
-        {
-          name: 'Routing',
-          exercises: 3,
-          id: 1
-        },
-        {
-          name: 'Middlewares',
-          exercises: 7,
-          id: 2
-        }
-      ]
+  const [persons, setPersons] = useState([
+    { name: 'Arto Hellas'},
+
+  ]) 
+  const [newName, setNewName] = useState('');
+
+  const handleNewName = (event)=>{
+    console.log(event.target.value);
+    setNewName(event.target.value);
+  }
+  
+  const addName = (event)=>{
+  event.preventDefault();
+  const newNameObj = {
+    name: newName
+  }
+  setPersons(persons.concat(newNameObj));
+  setNewName('');
   }
 
 
-  
-  ]
+  return (
+    <div>
+      <h2>Phonebook</h2>
 
-  return <Course course={course}/>
+      <form>
+
+        <div>
+          name: <input type="text" value={newName} onChange={handleNewName}/>
+        </div>
+
+        <div>
+          <button type="submit" onClick={addName}>add</button>
+        </div>
+
+      </form>
+
+      <h2>Numbers</h2>
+        {
+        persons.map(person =>
+          <p key={person.name}>{person.name}</p>
+        )
+        }
+    </div>
+  )
 }
+
 
 export default App ;
