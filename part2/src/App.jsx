@@ -1,7 +1,16 @@
 import { useState } from 'react'
-import SearchFilter from './components/SearchFilter.jsx';
-import Persons from './components/Persons.jsx';
 
+const Persons = ({persons})=>{
+    return (
+      <div>
+        {
+          persons.map((person)=>
+            <p key={person.id}>{person.name} {person.number}</p>
+          )
+        }
+      </div>
+    )
+      }
 
 const Input = ({text, value,onChangeHandler})=>{
   return(
@@ -10,10 +19,20 @@ const Input = ({text, value,onChangeHandler})=>{
     </div>
   )
 }
+
 const Button = ({text, onClickHandler})=>{
   return(
     <div>
       <button onClick ={onClickHandler}>{text}</button>
+    </div>
+  )
+}
+
+const SearchFilter = ({onChangeFunction}) =>{
+  return(
+    <div>
+        Filter shown with 
+        <input type="text"  onChange={onChangeFunction} />
     </div>
   )
 }
@@ -45,11 +64,13 @@ const App = () => {
    * Add new user
    */
   const add = (event)=>{
+    event.preventDefault();
+    
   if(newName == ''){
     alert('Name cannot be empty');
     return;
   }
-  event.preventDefault();
+  
   const findNameAdded = persons.find((person)=>person.name === newName);
 
   if(findNameAdded){
