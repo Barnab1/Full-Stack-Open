@@ -1,7 +1,7 @@
-export const Button = ({text, onClickHandler})=>{
+export const Button = ({text})=>{
   return(
     <div>
-      <button onClick ={onClickHandler}>{text}</button>
+      <button type="submit">{text}</button>
     </div>
   )
 }

@@ -1,32 +1,8 @@
-import { useState } from 'react'
-
-const Persons = ({persons})=>{
-    return (
-      <div>
-        {
-          persons.map((person)=>
-            <p key={person.id}>{person.name} {person.number}</p>
-          )
-        }
-      </div>
-    )
-      }
-
-const Input = ({text, value,onChangeHandler})=>{
-  return(
-    <div>
-     {text} :<input type="text" value={value} onChange ={onChangeHandler} />
-    </div>
-  )
-}
-
-const Button = ({text, onClickHandler})=>{
-  return(
-    <div>
-      <button onClick ={onClickHandler}>{text}</button>
-    </div>
-  )
-}
+import { useState, useEffect } from 'react'
+import axios from 'axios';
+import Button from './components/Button.jsx';
+import Input from './components/Input.jsx';
+import Persons from './components/Persons.jsx';
 
 const SearchFilter = ({onChangeFunction}) =>{
   return(
@@ -38,17 +14,26 @@ const SearchFilter = ({onChangeFunction}) =>{
 }
 
 const App = () => {
-   const [persons, setPersons] = useState([
-    { name: 'Arto Hellas', number: '040-123456', id: 1 },
-    { name: 'Ada Lovelace', number: '39-44-5323523', id: 2 },
-    { name: 'Dan Abramov', number: '12-43-234345', id: 3 },
-    { name: 'Mary Poppendieck', number: '39-23-6423122', id: 4 }
-  ])
-
+  
+  const [persons, setPersons] = useState([]);
   const [newName, setNewName] = useState('');
   const [newNumber, setNewNumber] = useState('');
+  const [filteredPersons, setFilteredPersons] = useState([]);
 
-  const [filteredPersons, setFilteredPersons] = useState(persons);
+  const hook=()=>{
+    console.log('start');
+    axios
+    .get('/persons')
+    .then(response=>{
+      console.log(response.data)
+      console.log('Promise fulfilled');
+      setPersons(response.data);
+      setFilteredPersons(response.data)
+    })
+  }
+
+  console.log('persons are ', persons.length, ' long');
+useEffect(hook,[]);
 
   const handleNewName = (event)=>{
     console.log(event.target.value);
@@ -116,10 +101,10 @@ const App = () => {
       <h2>Phonebook</h2>
     <SearchFilter onChangeFunction = {filterResult} /> 
     <h3>Add a new </h3>
-      <form>
+      <form onSubmit={add}>
         <Input text = 'Name' value = {newName} onChangeHandler = {handleNewName} />
         <Input text = 'Number' value = {newNumber} onChangeHandler = {handleNewNumber} />
-        <Button text="add" OnclickHandler={add} />
+        <Button text="add"/>
       </form>
       <h3>Numbers</h3>
       <Persons persons={filteredPersons} />
