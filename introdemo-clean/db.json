@@ -3,17 +3,167 @@
     {
       "id": "1",
       "content": "HTML is easy",
-      "important": true
+      "important": false
     },
     {
       "id": "2",
       "content": "Browser can execute only JavaScript",
-      "important": false
+      "important": true
     },
     {
       "id": "3",
       "content": "GET and POST are the most important methods of HTTP protocol",
+      "important": false
+    },
+    {
+      "id": "21e0",
+      "content": "A new Note...",
+      "important": false
+    },
+    {
+      "id": "9e3a",
+      "content": "happy",
+      "important": false
+    },
+    {
+      "id": "9832",
+      "content": "John is fine",
+      "important": false
+    },
+    {
+      "id": "41b3",
+      "content": "feels good",
+      "important": false
+    },
+    {
+      "id": "195c",
+      "content": "feels good",
       "important": true
+    },
+    {
+      "id": "d133",
+      "content": "A new Note...",
+      "important": false
+    },
+    {
+      "id": "fb4d",
+      "content": "A new Note...",
+      "important": false
+    },
+    {
+      "id": "627e",
+      "content": "A new Note...",
+      "important": false
+    },
+    {
+      "id": "74d7",
+      "content": "A new Note...",
+      "important": true
+    },
+    {
+      "id": "48af",
+      "content": "A new Note...",
+      "important": false
+    },
+    {
+      "id": "130b",
+      "content": "A new Note done by A. Barnabé",
+      "important": false
+    },
+    {
+      "id": "12a4",
+      "content": "A new Note today the 05/08/2025",
+      "important": true
+    },
+    {
+      "id": "8bfd",
+      "content": "hi get/notes",
+      "important": true
+    },
+    {
+      "id": "4c21",
+      "content": "/notes/16",
+      "important": false
+    },
+    {
+      "id": "4c21",
+      "content": "/notes/16",
+      "important": true
+    },
+    {
+      "id": "4c21",
+      "content": "/notes/16",
+      "important": false
+    },
+    {
+      "id": "4c21",
+      "content": "/notes/16",
+      "important": true
+    },
+    {
+      "id": "4c21",
+      "content": "/notes/16",
+      "important": false
+    },
+    {
+      "id": "4c21",
+      "content": "/notes/16",
+      "important": true
+    },
+    {
+      "id": "4c21",
+      "content": "/notes/16",
+      "important": true
+    },
+    {
+      "id": "4c21",
+      "content": "/notes/16",
+      "important": false
+    },
+    {
+      "id": "4c21",
+      "content": "/notes/16",
+      "important": true
+    },
+    {
+      "id": "8bfd",
+      "content": "hi get/notes",
+      "important": false
+    },
+    {
+      "id": "4c21",
+      "content": "/notes/16",
+      "important": false
+    },
+    {
+      "id": "4c21",
+      "content": "/notes/16",
+      "important": true
+    },
+    {
+      "id": "4c21",
+      "content": "/notes/16",
+      "important": false
+    },
+    {
+      "id": "4c21",
+      "content": "/notes/16",
+      "important": true
+    },
+    {
+      "id": "f901",
+      "content": "A new Note... hey becareful",
+      "important": true
+    },
+    {
+      "id": "5b88",
+      "content": "So here evrything is just fine",
+      "important": false
+    },
+    {
+      "id": "3426",
+      "content": "Happy to here that",
+      "important": false
     }
   ]
 }
