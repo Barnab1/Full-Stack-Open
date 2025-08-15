@@ -1,9 +1,14 @@
-const Persons = ({persons})=>{
+import Button from './Button.jsx';
+
+const Persons = ({persons, eventHandler})=>{
     return (
       <div>
         {
           persons.map((person)=>
-            <p key={person.id}>{person.name} {person.number}</p>
+            <div key={person.id}>
+            <p>{person.name} {person.number}</p>
+            <Button text="Delete" eventHandler= {eventHandler}/>
+            </div>
           )
         }
       </div>

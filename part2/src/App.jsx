@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import axios from 'axios';
+import personService from './services/persons';
 import Button from './components/Button.jsx';
 import Input from './components/Input.jsx';
 import Persons from './components/Persons.jsx';
@@ -21,18 +21,14 @@ const App = () => {
   const [filteredPersons, setFilteredPersons] = useState([]);
 
   const hook=()=>{
-    console.log('start');
-    axios
-    .get('/persons')
-    .then(response=>{
-      console.log(response.data)
-      console.log('Promise fulfilled');
-      setPersons(response.data);
-      setFilteredPersons(response.data)
+    //console.log('start');
+    personService.getAll()
+    .then(personsData=>{
+      setPersons(personsData);
+      setFilteredPersons(personsData)
     })
   }
 
-  console.log('persons are ', persons.length, ' long');
 useEffect(hook,[]);
 
   const handleNewName = (event)=>{
@@ -64,16 +60,19 @@ useEffect(hook,[]);
   }else{
   const newNameObj = {
     name: newName,
-    number: newNumber,
-    id: persons.length +1
+    number: newNumber
   }
 
-  const updated = persons.concat(newNameObj) ;
-  setPersons(updated);
-  setFilteredPersons(updated);
+personService.create(newNameObj)
+.then((newlyCreatedObj)=>{
+
+  setPersons(persons.concat(newlyCreatedObj));
+   setFilteredPersons(persons.concat(newlyCreatedObj));
 
   setNewName('');
   setNewNumber('');
+})
+
   }
   }
 
@@ -96,6 +95,8 @@ useEffect(hook,[]);
     }
   } 
   
+
+  
   return (
     <div>
       <h2>Phonebook</h2>
@@ -107,7 +108,7 @@ useEffect(hook,[]);
         <Button text="add"/>
       </form>
       <h3>Numbers</h3>
-      <Persons persons={filteredPersons} />
+      <Persons persons={filteredPersons} eventHandler={()=> console.log('I got clicked')} />
     </div>
   )
 

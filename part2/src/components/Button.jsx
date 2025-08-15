@@ -1,7 +1,12 @@
-export const Button = ({text})=>{
+export const Button = ({text, eventHandler})=>{
   return(
     <div>
-      <button type="submit">{text}</button>
+      {
+      eventHandler ?
+      <button type="submit" onClick ={eventHandler} >{text}</button>:
+      <button type="submit" >{text}</button>
+     }
+      
     </div>
   )
 }
