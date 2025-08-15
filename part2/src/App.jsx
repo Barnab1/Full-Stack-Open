@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react'
 import personService from './services/persons';
 import Button from './components/Button.jsx';
 import Input from './components/Input.jsx';
-import Persons from './components/Persons.jsx';
 
 const SearchFilter = ({onChangeFunction}) =>{
   return(
@@ -45,6 +44,7 @@ useEffect(hook,[]);
    * Add new user
    */
   const add = (event)=>{
+
     event.preventDefault();
     
   if(newName == ''){
@@ -52,11 +52,26 @@ useEffect(hook,[]);
     return;
   }
   
-  const findNameAdded = persons.find((person)=>person.name === newName);
+  const exPersonObj = persons.find((person)=>person.name === newName);
 
-  if(findNameAdded){
-    alert(`${newName} is already added to phonebook`);
-    return;
+  if(exPersonObj){
+
+  const {id, name, number} = exPersonObj;
+  console.log("Person Object found: ", exPersonObj);
+
+   const updateNumber = window.confirm(`${newName} is already added to phonebook, replace the old number with the new one`);
+
+    if(updateNumber){
+      const person = persons.filter(person=> person.id === id);
+      const changedPerson = { ...person, name: newName, number: newNumber};
+
+      personService
+      .update(id, changedPerson)
+      .then(returnedPerson =>{
+        console.log("Returned Person object: ",returnedPerson);
+        setPersons(persons.map(person=> person.id === id ? returnedPerson: person));
+      })
+    }
   }else{
   const newNameObj = {
     name: newName,
@@ -67,8 +82,7 @@ personService.create(newNameObj)
 .then((newlyCreatedObj)=>{
 
   setPersons(persons.concat(newlyCreatedObj));
-   setFilteredPersons(persons.concat(newlyCreatedObj));
-
+  setFilteredPersons(persons.concat(newlyCreatedObj));
   setNewName('');
   setNewNumber('');
 })
@@ -95,7 +109,19 @@ personService.create(newNameObj)
     }
   } 
   
+const clearPerson= (personObj)=>{
 
+  const {id, name} = personObj;
+  console.log(`Id ${id} got clicked`);
+  const proceed = window.confirm(`Delete ${name} ?`);
+  if(proceed){
+    personService.deleteEntry(id);
+    setPersons(persons.filter(person=> person.id !== id));
+    setFilteredPersons(filteredPersons.filter(person=> person.id !== id));
+  }else{
+    return;
+  }
+}
   
   return (
     <div>
@@ -108,7 +134,16 @@ personService.create(newNameObj)
         <Button text="add"/>
       </form>
       <h3>Numbers</h3>
-      <Persons persons={filteredPersons} eventHandler={()=> console.log('I got clicked')} />
+       <div>
+              {
+                filteredPersons.map((person)=>
+                  <div key={person.id}>
+                    <p>{person.name} {person.number}</p>
+                    <Button text="Delete" eventHandler= {()=> clearPerson(person)}/>
+                  </div>
+                )
+              }
+            </div>
     </div>
   )
 
