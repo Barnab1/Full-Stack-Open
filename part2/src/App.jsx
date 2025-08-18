@@ -52,12 +52,11 @@ useEffect(hook,[]);
     return;
   }
   
-  const exPersonObj = persons.find((person)=>person.name === newName);
+  const existingPersonObj = persons.find((person)=>person.name === newName);
 
-  if(exPersonObj){
+  if(existingPersonObj){
 
-  const {id, name, number} = exPersonObj;
-  console.log("Person Object found: ", exPersonObj);
+  const {id, name, number} = existingPersonObj;
 
    const updateNumber = window.confirm(`${newName} is already added to phonebook, replace the old number with the new one`);
 
@@ -70,9 +69,15 @@ useEffect(hook,[]);
       .then(returnedPerson =>{
         console.log("Returned Person object: ",returnedPerson);
         setPersons(persons.map(person=> person.id === id ? returnedPerson: person));
-      })
-    }
-  }else{
+        hook();
+        setNewName('');
+        setNewNumber(''); 
+                              })
+                    }else{
+        setNewName('');
+        setNewNumber(''); 
+                    }
+                  }else{
   const newNameObj = {
     name: newName,
     number: newNumber
