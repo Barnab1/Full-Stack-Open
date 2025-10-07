@@ -31,6 +31,7 @@ const update = (id, newPersonObject)=>{
  */
 const deleteEntry = (id)=>{
     const request = axios.delete(`${baseUrl}/${id}`);
+    return request;
 }
 
 export default {
