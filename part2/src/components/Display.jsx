@@ -14,7 +14,7 @@ const Display = ({countryInfos, setCountryInfos, weatherData})=>{
   }
   
   if(countryInfos.length === 0) {
-    return <p>No result found</p>;
+    return <p>Nothing to show</p>;
   }
   
   if(countryInfos.length > 1 && countryInfos.length <= 10){

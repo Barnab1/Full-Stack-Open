@@ -12,14 +12,17 @@ const App = ()=> {
   const [weatherData, setWeatherData] = useState(null);
 
   //WeatherData key
-   const key="76f288b8f66a4080d820184043862944";
+  
+  const api_key = import.meta.env.VITE_SOME_KEY
+
+  //export VITE_SOME_KEY=keyvalue && npm run dev // For Linux/macOS Bash
 
   //First useEffect, triggers on countryName
   useEffect(()=>{
     console.log('Started queries...');
 
     //setting the weatherData to null when there is nothing to show
-
+    
     setWeatherData(null);
 
     if(countryName){
@@ -65,7 +68,7 @@ const App = ()=> {
     //Reset state before new request
 
     setWeatherData(null);
-    const url = `https://api.openweathermap.org/data/2.5/weather?q=${country.capital[0]}&appid=${key}`;
+    const url = `https://api.openweathermap.org/data/2.5/weather?q=${country.capital[0]}&appid=${api_key}`;
     axios.get(url)
     .then(response=>{
       console.log("Data fetched", response.data);
@@ -80,7 +83,9 @@ const App = ()=> {
   
 
   const onSearch = (event)=>{
-    console.log(event.target.value);
+    if(event.target.value === ""){
+      return;
+    }
     setCountryName(event.target.value);
   }
 
