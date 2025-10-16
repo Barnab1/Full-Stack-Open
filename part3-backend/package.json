@@ -4,8 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
+    "dev":"node --watch index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Barnabé Agueh",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "express": "^5.1.0"
+  }
 }
