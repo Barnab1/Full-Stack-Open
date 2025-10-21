@@ -1,0 +1,10 @@
+GET https://cuddly-meme-456pqv4vgrvc7prw-3001.app.github.dev/api/notes
+
+###
+POST https://cuddly-meme-456pqv4vgrvc7prw-3001.app.github.dev/api/notes
+Content-Type: application/json
+
+{
+   "content": "VS code rest client is a good tool",
+   "important": true
+}
