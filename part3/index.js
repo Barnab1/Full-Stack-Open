@@ -26,9 +26,15 @@ const persons = [
     }
 ]
 
+const output = (people, date)=>{
+  return `<p>Phonebook has info for ${people} people</p><p>${date}</p>`
+}
 
 app.get("/",(request, response)=>{
-    response.send('<h1>Go and build the world</h1>');
+    const numberOfEntry = persons.length;
+    const currentDate = new Date();
+    response.send(output(numberOfEntry,currentDate));
+
 })
 
 app.get("/api/persons",(request, response)=>{
