@@ -61,6 +61,35 @@ app.delete('/api/persons/:id',(request, response)=>{
   response.status(204).end();
 })
 
+const generatedId = ()=>{
+  const maxId = Math.ceil(2*2*(Math.random() * persons.length));
+
+  return String(maxId + 1);
+}              
+
+app.post('/api/persons',(request, response)=>{
+  const body= request.body;
+
+  console.log('Here is the requested body', body);
+  //response.json(person);
+
+  
+  if(!body){
+    return response.status(400).json({'error':"content missing"});
+  }
+
+
+  const person = {
+    'id': generatedId(),
+    'name':body.name,
+    'number':body.number
+  }
+
+  persons = persons.concat(person);
+
+  response.json(persons);
+
+})
 const PORT = 3001;
 app.listen(PORT, ()=>{
     console.log('Application working');

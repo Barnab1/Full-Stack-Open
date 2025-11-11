@@ -7,3 +7,12 @@ GET https://cuddly-meme-456pqv4vgrvc7prw-3001.app.github.dev/api/persons/2
 ###Delete people entry
 
 DELETE https://cuddly-meme-456pqv4vgrvc7prw-3001.app.github.dev/api/persons/3
+
+###Adding new people entry
+POST https://cuddly-meme-456pqv4vgrvc7prw-3001.app.github.dev/api/persons/ HTTP/1.1
+content-type: application/json
+
+{
+    "name": "Ivanoviçau",
+    "number": "015289789"
+}
