@@ -1,0 +1,9 @@
+###Get every entries
+GET https://cuddly-meme-456pqv4vgrvc7prw-3001.app.github.dev/api/persons
+
+### Get specific people entry
+GET https://cuddly-meme-456pqv4vgrvc7prw-3001.app.github.dev/api/persons/2
+
+###Delete people entry
+
+DELETE https://cuddly-meme-456pqv4vgrvc7prw-3001.app.github.dev/api/persons/3
