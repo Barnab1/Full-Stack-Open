@@ -13,6 +13,6 @@ POST https://cuddly-meme-456pqv4vgrvc7prw-3001.app.github.dev/api/persons/ HTTP/
 content-type: application/json
 
 {
-    "name": "Mathiwa",
+    "name": "Vincent Bambeu",
     "number": "015289789"
 }

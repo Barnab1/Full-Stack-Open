@@ -1,7 +1,21 @@
 const express = require('express');
+const morgan = require('morgan');
+
 const app = express();
 
 app.use(express.json());
+
+morgan.token('post-body', function (request, response) {
+  //Only log the console if the request method is POST
+  if(request.method === "POST"){
+    return JSON.stringify(request.body);
+  }
+
+  return ""; //return empty on other methods
+})
+
+app.use(morgan(':method :url :status :res[content-length] - :response-time ms :post-body'));
+
 
 let persons = [
     { 
@@ -48,7 +62,7 @@ app.get('/api/persons/:id',(request, response)=>{
     if(person){
   response.json(person);
     }else{
-      response.status(400).end();
+      response.status(404).end();
     }
 })
 
@@ -62,7 +76,7 @@ app.delete('/api/persons/:id',(request, response)=>{
 })
 
 const generatedId = ()=>{
-  const maxId = Math.ceil(2*2*(Math.random() * persons.length));
+  const maxId = Math.floor((Math.random() *100000));
 
   return String(maxId + 1);
 }              
@@ -97,10 +111,11 @@ app.post('/api/persons',(request, response)=>{
     return response.status(400).json({'error':"name must be unique"})
   }
 
-//concatenating the anwser and returning it
+//concatenating the anwser and following the best practice of just sending
+//back the newly created resource only
+
   persons = persons.concat(newPerson);
-  response.json(persons);
-console.log('New entry was succesfully added');
+  response.json(newPerson);
 })
 
 
