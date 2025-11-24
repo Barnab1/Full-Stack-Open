@@ -1,24 +1,27 @@
 const express = require('express');
 const app = express();
+const cors = require('cors');
+
 
 app.use(express.json())
+app.use(cors());
 
 let notes = [
   {
     id: 1,
-    note: "I love Paris",
-    important: "True"
+    content: "I love Paris",
+    important: true
   },
    {
     id: 2,
-    note: "He loves Paris",
-    important: "True"
+    content: "He loves Paris",
+    important: true
   },
 
   {
     id: 3,
-    note: "We loves Paris",
-    important: "True"
+    content: "We loves Paris",
+    important: true
   }
 ]
 
@@ -37,7 +40,6 @@ app.get('/',(request,response)=>{
 })
 app.get('/api/notes',(request, response)=>{
   response.json(notes);
-  console.log(notes);
 })
 
 const generatedId = ()=>{
