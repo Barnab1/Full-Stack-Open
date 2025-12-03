@@ -1,15 +1,34 @@
+/*
 const express = require('express');
 const app = express();
 const cors = require('cors');
 const path = require('path');
+*/
+import  express  from 'express';
+import cors from 'cors';
+
+import {fileURLToPath} from 'url';
+
+import {dirname, join} from 'path';
+
+const app = express();
+
 
 app.use(express.json())
-app.use(cors());
+app.use(cors())
 
-const BUILD_PATH = path.join(__dirname, 'dist'); 
+const __filename = fileURLToPath(import.meta.url);
 
-// Serve the static assets (JS, CSS, images) from the 'dist' folder
+console.log(`__filename value is : ${__filename}`);
+const __dirname = dirname(__filename);
+
+console.log(`__dirname value is: ${__dirname}`);
+const BUILD_PATH = join(__dirname, 'dist'); 
+
+// Serve the static assets (JS, CSS, images) from the 'dist' folder inside the React directory
+
 app.use(express.static(BUILD_PATH)); 
+//app.use(express.static(path.join(__dirname, 'client', 'build')))
 
 let notes = [
   {
@@ -40,9 +59,10 @@ const requestLogger = (request, response, next)=>{
 
 app.use(requestLogger);
 
-app.get('/',(request,response)=>{
+  app.get('/',(request,response)=>{
   response.send('<h1>Hello World</h1>');
 })
+
 app.get('/api/notes',(request, response)=>{
   response.json(notes);
 })
@@ -77,15 +97,44 @@ app.post('/api/notes',(request, response)=>{
   response.json(note)
 })
 
+app.delete("/api/notes/:id",(req, res)=>{
+
+  const id = Number(req.params.id);
+
+  const isIdThere = notes.find( note => note.id == id);
+
+
+  console.log(`Actual id value is ${id}`);
+
+  console.log(`Type of id is ${typeof id}`);
+
+  console.log(`Value of the boolean: ${isIdThere}`)
+  if(isIdThere){
+    
+  //filtering the delated id
+
+  notes = notes.filter(note => note.id != id);
+
+  res.send(204).end();
+  }else{
+    res.status(400).json({error: 'content missing'})
+  }
+  
+})
+
+//FRONTEND FALLBACK
+
 app.use((request, response, next) => {
     // Check if the request is NOT for an API path (it has already failed to match API routes)
     if (!request.path.startsWith('/api')) {
+      console.log(`Here is the Build path: ${BUILD_PATH}`);
         response.sendFile(path.join(BUILD_PATH, 'index.html'));
     } else {
         // If it's an API path that didn't match any route above, pass it to the 404 handler
         next();
     }
 });
+
 
 const unknownEndpoint = (request, response)=>{
   response.status(404).send({error: 'unknown endpoint'});
