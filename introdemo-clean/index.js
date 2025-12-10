@@ -1,9 +1,3 @@
-/*
-const express = require('express');
-const app = express();
-const cors = require('cors');
-const path = require('path');
-*/
 import  express  from 'express';
 import cors from 'cors';
 
@@ -19,10 +13,8 @@ app.use(cors())
 
 const __filename = fileURLToPath(import.meta.url);
 
-console.log(`__filename value is : ${__filename}`);
 const __dirname = dirname(__filename);
 
-console.log(`__dirname value is: ${__dirname}`);
 const BUILD_PATH = join(__dirname, 'dist'); 
 
 // Serve the static assets (JS, CSS, images) from the 'dist' folder inside the React directory
@@ -128,7 +120,7 @@ app.use((request, response, next) => {
     // Check if the request is NOT for an API path (it has already failed to match API routes)
     if (!request.path.startsWith('/api')) {
       console.log(`Here is the Build path: ${BUILD_PATH}`);
-        response.sendFile(path.join(BUILD_PATH, 'index.html'));
+        response.sendFile(join(BUILD_PATH, 'index.html'));
     } else {
         // If it's an API path that didn't match any route above, pass it to the 404 handler
         next();

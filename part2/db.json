@@ -1,21 +1,6 @@
 {
   "persons": [
     {
-      "id": "40c5",
-      "name": "Antonio",
-      "number": "89789"
-    },
-    {
-      "id": "de56",
-      "name": "Casimir",
-      "number": "78945"
-    },
-    {
-      "id": "505d",
-      "name": "Vincent",
-      "number": "58987456"
-    },
-    {
       "id": "34b3",
       "name": "Added Aballo",
       "number": "56895412"
@@ -24,11 +9,6 @@
       "id": "f14d",
       "name": "Turibio",
       "number": "457896"
-    },
-    {
-      "id": "8736",
-      "name": "Yvon",
-      "number": "456789"
     },
     {
       "id": "246c",

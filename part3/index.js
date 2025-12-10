@@ -1,9 +1,21 @@
-const express = require('express');
-const morgan = require('morgan');
+import express from 'express';
+import morgan from 'morgan';
+
+import {fileURLToPath} from 'url';
+import {dirname, join} from 'path';
+
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+const BUILD_PATH = join(__dirname, 'dist');
 
 const app = express();
 
 app.use(express.json());
+
+app.use(express.static(BUILD_PATH));
+
 
 morgan.token('post-body', function (request, response) {
   //Only log the console if the request method is POST
@@ -45,7 +57,9 @@ const output = (people, date)=>{
 }
 
 app.get("/",(request, response)=>{
+
     const numberOfEntry = persons.length;
+    
     const currentDate = new Date();
     response.send(output(numberOfEntry,currentDate));
 
@@ -76,7 +90,7 @@ app.delete('/api/persons/:id',(request, response)=>{
 })
 
 const generatedId = ()=>{
-  const maxId = Math.floor((Math.random() *100000));
+  const maxId = Math.floor((Math.random() *1000));
 
   return String(maxId + 1);
 }              
@@ -118,9 +132,18 @@ app.post('/api/persons',(request, response)=>{
   response.json(newPerson);
 })
 
+app.use((request, response, next) => {
+    // Check if the request is NOT for an API path (it has already failed to match API routes)
+    if (!request.path.startsWith('/api')) {
+      console.log(`Here is the Build path: ${BUILD_PATH}`);
+        response.sendFile(join(BUILD_PATH, 'index.html'));
+    } else {
+        // If it's an API path that didn't match any route above, pass it to the 404 handler
+        next();
+    }
+});
 
-
-const PORT = 3001;
+const PORT = process.env.PORT || 3001;
 app.listen(PORT, ()=>{
     console.log('Application working');
 })
