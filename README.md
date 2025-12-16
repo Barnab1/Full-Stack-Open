@@ -22,6 +22,12 @@ This repository documents my progress through the [Full Stack Open](https://full
 - CRUD operations on server data
 - Styling React apps and using `useEffect` for side effects
 
+### Part 3: Programming a server with NodeJS and Express
+- Programming the backend side of an internet application
+- Serving static files from the backend
+- Deploying the application on internet through web services such as Render, Fly
+
+Visit the Application deployed [Full-Stack-Open-Persons](https://full-stack-open-persons.onrender.com/)
 ---
 
 ## 🚀 Getting Started
