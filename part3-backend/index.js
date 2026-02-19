@@ -1,11 +1,25 @@
-const express = require('express');
-const app = express();
-const cors = require('cors');
+/**index.js
+ * 
+ * This is the back end side of the App
+ * which is connected through the note.js interface 
+ * to the Mongo Database
+ */
 
+import config from '../part3-backend/src/utils/config.js';
+
+import express from 'express';
+import cors from 'cors';
+
+import Note from '../part3-backend/models/note.js';
+
+
+const app = express();
 
 app.use(express.json())
 app.use(cors());
 
+
+/**Notes were used the first time since they were hardcoded */
 let notes = [
   {
     id: 1,
@@ -35,13 +49,31 @@ const requestLogger = (request, response, next)=>{
 
 app.use(requestLogger);
 
+/**Index Page */
 app.get('/',(request,response)=>{
   response.send('<h1>Hello World</h1>');
 })
+
+/**Notes Pages */
 app.get('/api/notes',(request, response)=>{
-  response.json(notes);
+  Note.find({}).then(notes=> response.json(notes))
 })
 
+/** Specific Id finding*/
+
+app.get('/api/notes/:id', (request, response)=>{
+  Note.findById(request.params.id)
+  .then(note=>{
+    response.json(note);
+  })
+  .catch(error=>{
+    response.json(`Note not found`);
+  })
+})
+/**generatedId() 
+ * 
+ * Helper function used to generate new inserted note Id
+*/
 const generatedId = ()=>{
   const maxId = notes.length > 0 ? 
     Math.max(...notes.map(n => Number(n.id))) : 0;
@@ -49,6 +81,7 @@ const generatedId = ()=>{
   return String(maxId +1);
 }
 
+/**Note posting function */
 app.post('/api/notes',(request, response)=>{
 
   //fetching the request body
@@ -61,35 +94,24 @@ app.post('/api/notes',(request, response)=>{
     });
   }
   
-  const note = {
-    content: body.content,
-    important: body.important || false,
-    id: generatedId()
-  }
-
-
-  notes = notes.concat(note);
-  response.json(note)
+const note = new Note({
+  content: body.content,
+  important: body.important || false
 })
 
 
-
-
+  note.save().then(savedNote=>{
+    response.json(savedNote);
+  })
+})
 
 const unknownEndpoint = (request, response)=>{
   response.status(404).send({error: 'unknown endpoint'});
 }
 
-
-
 app.use(unknownEndpoint);
 
-
-
-
-
-const PORT = 3001;
+const PORT = config.PORT;
 app.listen(PORT,()=>{
-  console.log('Even more excited');
+  console.log('Everything works correctly 😊');
 })
-  

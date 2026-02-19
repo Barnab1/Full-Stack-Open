@@ -5,6 +5,6 @@ POST https://cuddly-meme-456pqv4vgrvc7prw-3001.app.github.dev/api/notes
 Content-Type: application/json
 
 {
-   "content": "VS code rest client is a good tool",
+   "content": "Again and again, without fear, keep going",
    "important": true
 }
