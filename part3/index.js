@@ -58,10 +58,7 @@ const output = (people, date)=>{
 
 app.get("/",(request, response)=>{
 
-    const numberOfEntry = persons.length;
-    
-    const currentDate = new Date();
-    response.send(output(numberOfEntry,currentDate));
+    console.log("Hello world");
 
 })
 
@@ -89,6 +86,8 @@ app.delete('/api/persons/:id',(request, response)=>{
   response.status(204).end();
 })
 
+
+/**Inserting new item */
 const generatedId = ()=>{
   const maxId = Math.floor((Math.random() *1000));
 
@@ -131,6 +130,9 @@ app.post('/api/persons',(request, response)=>{
   persons = persons.concat(newPerson);
   response.json(newPerson);
 })
+
+/**End Person Insertion section*/
+
 
 app.use((request, response, next) => {
     // Check if the request is NOT for an API path (it has already failed to match API routes)

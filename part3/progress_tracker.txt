@@ -1,0 +1,5 @@
+##29/04/2026
+
+I worked on the mongo.js file alone to allow insertion and reading operations from Mongodb.
+The application is now working perfectly.
+Next steps is all about connecting the backend to the database 
