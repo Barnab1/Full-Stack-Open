@@ -1,16 +1,22 @@
 import express from 'express';
 import morgan from 'morgan';
-
-import {fileURLToPath} from 'url';
-import {dirname, join} from 'path';
+import mongoose from 'mongoose';
 
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+// import {fileURLToPath} from 'url';
+// import {dirname, join} from 'path';
 
-const BUILD_PATH = join(__dirname, 'dist');
+
+//const __filename = fileURLToPath(import.meta.url);
+//const __dirname = dirname(__filename);
+
+//const BUILD_PATH = join(__dirname, 'dist');
 
 const app = express();
+
+/* 
+//CONNECTING THE BACKEND TO FRONT END
+//This section refers to middleware and the right way to use it in applications
 
 app.use(express.json());
 
@@ -28,7 +34,7 @@ morgan.token('post-body', function (request) {
 
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :post-body'));
 
-
+*/
 let persons = [
     { 
       "id": "1",
@@ -52,18 +58,46 @@ let persons = [
     }
 ]
 
-const output = (people, date)=>{
-  return `<p>Phonebook has info for ${people} people</p><p>${date}</p>`
-}
+/**Database Integration */
+
+//Database connection
+const password = process.argv[2];
+
+const url = `mongodb+srv://Barnabe:${password}@cluster0.6nbxdsl.mongodb.net/personApp?appName=Cluster0`;
+
+mongoose.set('strictQuery',false);
+mongoose.connect(url, {family: 4});
+
+//Database Modelization
+const personSchema = new mongoose.Schema({
+    id: Number,
+    name: String,
+    number: String
+});
+
+//Removing leading "_" from id value
+
+personSchema.set('toJSON', {
+  transform: (document, returnedObject) => {
+    returnedObject.id = returnedObject._id.toString()
+    delete returnedObject._id
+    delete returnedObject.__v
+  }
+})
+const Person = mongoose.model('Person',personSchema);
+
+
 
 app.get("/",(request, response)=>{
 
-    console.log("Hello world");
+    response.json("Hello world");
 
 })
 
 app.get("/api/persons",(request, response)=>{
-        response.json(persons);
+        Person.find({}).then(persons=>{
+          response.json(persons)
+        })
 })
 
 app.get('/api/persons/:id',(request, response)=>{
@@ -133,7 +167,9 @@ app.post('/api/persons',(request, response)=>{
 
 /**End Person Insertion section*/
 
+/** connecting BACKEND TO FRONTEND */
 
+/*
 app.use((request, response, next) => {
     // Check if the request is NOT for an API path (it has already failed to match API routes)
     if (!request.path.startsWith('/api')) {
@@ -144,6 +180,8 @@ app.use((request, response, next) => {
         next();
     }
 });
+*/
+
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, ()=>{

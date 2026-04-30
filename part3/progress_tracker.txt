@@ -3,3 +3,9 @@
 I worked on the mongo.js file alone to allow insertion and reading operations from Mongodb.
 The application is now working perfectly.
 Next steps is all about connecting the backend to the database 
+
+##30/04/2026
+
+I succesfully connect the backend to the database.
+But only reading operations work.
+Next step is about Moving db configuration to its own module
