@@ -1,8 +1,15 @@
+
 import mongoose from 'mongoose';
+
 
 mongoose.set('strictQuery', false)
 
 const url = process.env.MONGODB_URI
+
+//Test side
+console.log(`Here is the url: ${url}`);
+
+//end test side
 
 console.log('connecting to', url);
 
@@ -31,4 +38,4 @@ personSchema.set('toJSON', {
   }
 })
 
-module.exports = mongoose.model('Person', personSchema);
+export default mongoose.model('Person', personSchema);

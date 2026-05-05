@@ -1,7 +1,7 @@
 
 import 'dotenv/config';
 import express from 'express';
-import Person from '../models/note.js';
+import Person from '../part3/models/persons.js';
 
 // import {fileURLToPath} from 'url';
 // import {dirname, join} from 'path';
