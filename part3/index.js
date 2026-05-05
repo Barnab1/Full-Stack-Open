@@ -1,7 +1,7 @@
-import express from 'express';
-import morgan from 'morgan';
-import mongoose from 'mongoose';
 
+import 'dotenv/config';
+import express from 'express';
+import Person from '../models/note.js';
 
 // import {fileURLToPath} from 'url';
 // import {dirname, join} from 'path';
@@ -58,35 +58,7 @@ let persons = [
     }
 ]
 
-/**Database Integration */
-
-//Database connection
-const password = process.argv[2];
-
-const url = `mongodb+srv://Barnabe:${password}@cluster0.6nbxdsl.mongodb.net/personApp?appName=Cluster0`;
-
-mongoose.set('strictQuery',false);
-mongoose.connect(url, {family: 4});
-
-//Database Modelization
-const personSchema = new mongoose.Schema({
-    id: Number,
-    name: String,
-    number: String
-});
-
-//Removing leading "_" from id value
-
-personSchema.set('toJSON', {
-  transform: (document, returnedObject) => {
-    returnedObject.id = returnedObject._id.toString()
-    delete returnedObject._id
-    delete returnedObject.__v
-  }
-})
-const Person = mongoose.model('Person',personSchema);
-
-
+//Database Integration
 
 app.get("/",(request, response)=>{
 
@@ -183,7 +155,7 @@ app.use((request, response, next) => {
 */
 
 
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT;
 app.listen(PORT, ()=>{
     console.log('Application working');
 })
