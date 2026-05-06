@@ -13,3 +13,6 @@ Next step is about Moving db configuration to its own module
 ##05/05/2026
 Starting DB integration and faced an issue with the index.js file
 Nothing is not working but I make a small progress: changing the url format
+
+##06/05/2026
+Still working on the part "Using database in route handlers". I'm stuck with the rest file about sending request

@@ -22,6 +22,8 @@
     "path": "^0.12.7",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
+    "rest": "^2.0.0",
+    "rest-client": "^0.1.5",
     "url": "^0.11.4"
   },
   "devDependencies": {

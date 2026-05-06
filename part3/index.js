@@ -1,20 +1,22 @@
 
 import 'dotenv/config';
 import express from 'express';
+import morgan from 'morgan';
 import Person from '../part3/models/persons.js';
+import cors from 'cors'; //Enable external connections
 
-// import {fileURLToPath} from 'url';
-// import {dirname, join} from 'path';
+import {fileURLToPath} from 'url';
+import {dirname, join} from 'path';
 
 
-//const __filename = fileURLToPath(import.meta.url);
-//const __dirname = dirname(__filename);
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
-//const BUILD_PATH = join(__dirname, 'dist');
+const BUILD_PATH = join(__dirname, 'dist');
 
 const app = express();
 
-/* 
+ 
 //CONNECTING THE BACKEND TO FRONT END
 //This section refers to middleware and the right way to use it in applications
 
@@ -22,19 +24,17 @@ app.use(express.json());
 
 app.use(express.static(BUILD_PATH));
 
+app.use(cors());
 
-morgan.token('post-body', function (request) {
-  //Only log the console if the request method is POST
+/*
+morgan.token('post-body', (request) {
   if(request.method === "POST"){
     return JSON.stringify(request.body);
   }
-
-  return ""; //return empty on other methods
 })
-
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :post-body'));
-
 */
+
 let persons = [
     { 
       "id": "1",
@@ -110,13 +110,16 @@ app.post('/api/persons',(request, response)=>{
   }
 
 // creating a new entry
-  const newPerson = {
+  const newPerson = new Person({
     'id': generatedId(),
     'name':body.name,
     'number':body.number
-  }
+  })
 
-//Checking name or number 
+console.log(`Value of new person is `, response.json(newPerson));
+
+//Checking name or number
+ 
   if(newPerson.name == "" || newPerson.number == "" ){
     return response.status(400).json({'error':"Please fill in both name and number"});
   }
