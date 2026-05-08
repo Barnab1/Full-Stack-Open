@@ -35,7 +35,8 @@ morgan.token('post-body', (request) {
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :post-body'));
 */
 
-let persons = [
+
+let localPersons = [
     { 
       "id": "1",
       "name": "Arto Hellas", 
@@ -58,6 +59,7 @@ let persons = [
     }
 ]
 
+
 //Database Integration
 
 app.get("/",(request, response)=>{
@@ -67,22 +69,23 @@ app.get("/",(request, response)=>{
 })
 
 app.get("/api/persons",(request, response)=>{
-        Person.find({}).then(persons=>{
+        Person.find({})
+        .then(persons=>{
           response.json(persons)
         })
+        .catch(error=> response.json(`Look at those people, while we bring more, ${localPersons}`));
 })
 
 app.get('/api/persons/:id',(request, response)=>{
   const id = request.params.id;
-  
-  const person = persons.find(person => person.id === id);
-    if(person){
-  response.json(person);
-    }else{
-      response.status(404).end();
-    }
+
+  Person.findById(id)
+  .then(person=>{
+    response.json(person);})
+  .catch(error=>response.json(`The entered id is not recognized`))
 })
 
+/* 
 app.delete('/api/persons/:id',(request, response)=>{
 
   const id = request.params.id;
@@ -91,7 +94,7 @@ app.delete('/api/persons/:id',(request, response)=>{
 
   response.status(204).end();
 })
-
+*/
 
 /**Inserting new item */
 const generatedId = ()=>{
@@ -125,7 +128,7 @@ console.log(`Value of new person is `, response.json(newPerson));
   }
 
   //ending the session  if the name already exist
-  const isNameExisting = persons.find(people => people.name == newPerson.name);
+  const isNameExisting = Person.find({name: newPerson.name});
 
   //console.log(isNameExisting);
   if(isNameExisting != undefined){
@@ -133,11 +136,10 @@ console.log(`Value of new person is `, response.json(newPerson));
     return response.status(400).json({'error':"name must be unique"})
   }
 
-//concatenating the anwser and following the best practice of just sending
-//back the newly created resource only
+//sending the newly created person to backend
 
-  persons = persons.concat(newPerson);
-  response.json(newPerson);
+newPerson.save()
+          .then(savedPerson=> response.json(savedPerson));
 })
 
 /**End Person Insertion section*/

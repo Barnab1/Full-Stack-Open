@@ -16,3 +16,11 @@ Nothing is not working but I make a small progress: changing the url format
 
 ##06/05/2026
 Still working on the part "Using database in route handlers". I'm stuck with the rest file about sending request
+
+#07/05/2026
+Github copilot helped me to make the fix and th rest file started working gain. He taught me a valuable lesson: it is important to make difference
+between npm packages and Vs code tools as I was treating Rest Client as a node package insted of a Vscode tools
+
+##8/05/2026
+
+Still working on the section "Using database in route handler". I'm working on the insert operations
