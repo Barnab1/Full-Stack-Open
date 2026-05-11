@@ -119,7 +119,7 @@ app.post('/api/persons',(request, response)=>{
     'number':body.number
   })
 
-console.log(`Value of new person is `, response.json(newPerson));
+console.log(`Value of new person is `, (newPerson));
 
 //Checking name or number
  
@@ -128,7 +128,8 @@ console.log(`Value of new person is `, response.json(newPerson));
   }
 
 newPerson.save()
-          .then(savedPerson=> response.json(savedPerson));
+          .then(savedPerson=> response.json(savedPerson))
+          .catch(error=> response.json(error))
 })
 
 /**End Person Insertion section*/
