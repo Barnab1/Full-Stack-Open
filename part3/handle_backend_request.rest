@@ -8,6 +8,6 @@ POST https://shiny-space-winner-4j79pw6wv9727j79-3001.app.github.dev/api/persons
 content-type: application/json
 
 {
-    "name": "Barnabé LEBREUX",
-    "number": "015289789"
+    "name": "Jean da Cruz",
+    "number": "89784542"
 }

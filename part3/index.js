@@ -127,17 +127,6 @@ console.log(`Value of new person is `, response.json(newPerson));
     return response.status(400).json({'error':"Please fill in both name and number"});
   }
 
-  //ending the session  if the name already exist
-  const isNameExisting = Person.find({name: newPerson.name});
-
-  //console.log(isNameExisting);
-  if(isNameExisting != undefined){
-
-    return response.status(400).json({'error':"name must be unique"})
-  }
-
-//sending the newly created person to backend
-
 newPerson.save()
           .then(savedPerson=> response.json(savedPerson));
 })

@@ -24,3 +24,8 @@ between npm packages and Vs code tools as I was treating Rest Client as a node p
 ##8/05/2026
 
 Still working on the section "Using database in route handler". I'm working on the insert operations
+
+##11/05/2026
+The insert operation worked succesfully
+
+I'm stuck a comment from the command line say I have to watcthe indefile which is not working
