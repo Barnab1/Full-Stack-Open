@@ -62,12 +62,6 @@ let localPersons = [
 
 //Database Integration
 
-app.get("/",(request, response)=>{
-
-    response.json("Hello world");
-
-})
-
 app.get("/api/persons",(request, response)=>{
         Person.find({})
         .then(persons=>{
@@ -76,13 +70,13 @@ app.get("/api/persons",(request, response)=>{
         .catch(error=> response.json(`Look at those people, while we bring more, ${localPersons}`));
 })
 
-app.get('/api/persons/:id',(request, response)=>{
+app.get('/api/persons/:id',(request, response,next)=>{
   const id = request.params.id;
 
   Person.findById(id)
   .then(person=>{
     response.json(person);})
-  .catch(error=>response.json(`The entered id is not recognized`))
+  .catch(error=>next(error))
 })
 
 /* 
@@ -106,8 +100,6 @@ const generatedId = ()=>{
 app.post('/api/persons',(request, response)=>{
   const body= request.body;
 
-  //console.log('Here is the requested body', body);
-
   if(!body){
     return response.status(400).json({'error':"content missing"});
   }
@@ -118,8 +110,6 @@ app.post('/api/persons',(request, response)=>{
     'name':body.name,
     'number':body.number
   })
-
-console.log(`Value of new person is `, (newPerson));
 
 //Checking name or number
  
@@ -148,7 +138,18 @@ app.use((request, response, next) => {
     }
 });
 */
+//Moving error handling into middleware
 
+
+//Handler of request that result in errors
+const errorHandler = (error, request, response,next)=>{
+  
+  console.log(error.message);
+  if(error.name === "CastError"){
+    return response.status(400).send({error :'malformatted id'})
+  }
+  next(error)
+}
 
 const PORT = process.env.PORT;
 app.listen(PORT, ()=>{

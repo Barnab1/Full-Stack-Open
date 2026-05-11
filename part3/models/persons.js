@@ -1,17 +1,9 @@
 
 import mongoose from 'mongoose';
 
-
 mongoose.set('strictQuery', false)
 
 const url = process.env.MONGODB_URI
-
-//Test side
-console.log(`Here is the url: ${url}`);
-
-//end test side
-
-console.log('connecting to', url);
 
 mongoose.connect(url, { family: 4 })
   .then(result => {
@@ -28,7 +20,7 @@ const personSchema = new mongoose.Schema({
     number: String
 });
 
-//Format objects returned by Mongoose
+//Formating objects returned by Mongoose
 
 personSchema.set('toJSON', {
   transform: (document, returnedObject) => {
