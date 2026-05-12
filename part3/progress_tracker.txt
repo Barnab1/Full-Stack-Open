@@ -28,4 +28,4 @@ Still working on the section "Using database in route handler". I'm working on t
 ##11/05/2026
 The insert operation worked succesfully
 
-I'm stuck a comment from the command line say I have to watcthe indefile which is not working
+I'm currently working on the update operations

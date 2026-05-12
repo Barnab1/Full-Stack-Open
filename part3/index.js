@@ -62,6 +62,7 @@ let localPersons = [
 
 //Database Integration
 
+//Reading database entries
 app.get("/api/persons",(request, response)=>{
         Person.find({})
         .then(persons=>{
@@ -70,6 +71,7 @@ app.get("/api/persons",(request, response)=>{
         .catch(error=> response.json(`Look at those people, while we bring more, ${localPersons}`));
 })
 
+//Reading specific information
 app.get('/api/persons/:id',(request, response,next)=>{
   const id = request.params.id;
 
@@ -79,16 +81,17 @@ app.get('/api/persons/:id',(request, response,next)=>{
   .catch(error=>next(error))
 })
 
-/* 
-app.delete('/api/persons/:id',(request, response)=>{
+//Deletion functionality
+
+app.delete('/api/persons/:id',(request, response,next)=>{
 
   const id = request.params.id;
-  console.log("The id is: ",id);
-  persons = persons.filter(person => person.id !== id);
-
+  Person.findByIdAndDelte(id)
+        .then(result=> response.status(204).end)
+        .catch(error=>next(error))
   response.status(204).end();
 })
-*/
+
 
 /**Inserting new item */
 const generatedId = ()=>{
@@ -124,6 +127,10 @@ newPerson.save()
 
 /**End Person Insertion section*/
 
+//Update operations
+app.put('/api/persons/:id',(request, response, next)=>{
+  
+})
 /** connecting BACKEND TO FRONTEND */
 
 /*
@@ -140,8 +147,13 @@ app.use((request, response, next) => {
 */
 //Moving error handling into middleware
 
+const unknownEndpoint = (request, response)=>{
+    response.status(400).send({error: 'unknown endpoint'});
+}
 
-//Handler of request that result in errors
+//Handler of request with unknow endpoint
+app.use(unknownEndpoint);
+
 const errorHandler = (error, request, response,next)=>{
   
   console.log(error.message);
@@ -150,6 +162,9 @@ const errorHandler = (error, request, response,next)=>{
   }
   next(error)
 }
+
+//Handler of request that result in errors
+app.use(errorHandler);
 
 const PORT = process.env.PORT;
 app.listen(PORT, ()=>{
