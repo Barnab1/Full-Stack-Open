@@ -86,19 +86,13 @@ app.get('/api/persons/:id',(request, response,next)=>{
 app.delete('/api/persons/:id',(request, response,next)=>{
 
   const id = request.params.id;
-  Person.findByIdAndDelte(id)
+  Person.findByIdAndDelete(id)
         .then(result=> response.status(204).end)
         .catch(error=>next(error))
-  response.status(204).end();
 })
 
 
-/**Inserting new item */
-const generatedId = ()=>{
-  const maxId = Math.floor((Math.random() *1000));
-
-  return String(maxId + 1);
-}              
+/**Inserting new item */             
 
 app.post('/api/persons',(request, response)=>{
   const body= request.body;
@@ -109,7 +103,6 @@ app.post('/api/persons',(request, response)=>{
 
 // creating a new entry
   const newPerson = new Person({
-    'id': generatedId(),
     'name':body.name,
     'number':body.number
   })
@@ -129,7 +122,22 @@ newPerson.save()
 
 //Update operations
 app.put('/api/persons/:id',(request, response, next)=>{
+  const {name, number} = request.body;
   
+  if (!name || !number) {
+    return response.status(400).json({ error: 'name and number are required' });
+  }
+  
+  Person.findById(request.params.id)
+                  .then(person=>{
+                    if(!person) return response.status(404).json({ error: 'person not found' });
+                      //updating entries
+                    person.name = name;
+                    person.number = number;
+
+                    return person.save().then(updatedPerson=> response.json(updatedPerson));
+                  })
+                  .catch(error=>next(error))
 })
 /** connecting BACKEND TO FRONTEND */
 

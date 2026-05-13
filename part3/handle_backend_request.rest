@@ -1,13 +1,25 @@
 ###Get every entries
-GET https://shiny-space-winner-4j79pw6wv9727j79-3001.app.github.dev/api/persons
-
+GET http://localhost:3001/api/persons
 
 ###Adding new people entry
 
-POST https://shiny-space-winner-4j79pw6wv9727j79-3001.app.github.dev/api/persons
-content-type: application/json
+POST http://localhost:3001/api/persons
+Content-Type: application/json
 
 {
-    "name": "Paul de THèbes",
-    "number": "87864542"
+    "name": "Vincent La fille",
+    "number": "789456"
 }
+
+###Deleting an entry
+DELETE http://localhost:3001/api/persons/6a045a9894be57c21e863f17
+
+###Updating an entry
+PUT http://localhost:3001/api/persons/6a045a9894be57c21e863f17
+Content-Type: application/json
+
+{
+    "name": "Barnabé",
+    "number": "0153818219"
+}
+

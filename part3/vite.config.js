@@ -11,7 +11,7 @@ export default defineConfig({
       // Intercepte le préfixe '/api' utilisé par votre frontend (ex: '/api/persons')
       '/api': { 
         // L'URL de votre serveur Express qui écoute sur le port 3001
-        target: 'https://shiny-space-winner-4j79pw6wv9727j79-3001.app.github.dev/', 
+        target: 'http://localhost:3001/', 
         changeOrigin: true, 
       },
     },

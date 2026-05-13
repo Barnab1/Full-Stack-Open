@@ -72,18 +72,15 @@ useEffect(hook,[]);
 
   const {id, name, number} = existingPersonObj;
 
-   const updateNumber = window.confirm(`${newName} is already added to phonebook, replace the old number with the new one`);
+   const updateConfirm = window.confirm(`${newName} is already added to phonebook, replace the old number with the new one`);
 
-    if(updateNumber){
-      const person = persons.filter(person=> person.id === id);
-      const changedPerson = { ...person, name: newName, number: newNumber};
+    if(updateConfirm){
+      const updateData = {name: newName, number: newNumber};
 
       personService
-      .update(id, changedPerson)
+      .update(id, updateData)
       .then(returnedPerson =>{
-        console.log("Returned Person object: ",returnedPerson);
         setPersons(persons.map(person=> person.id === id ? returnedPerson: person));
-        hook();
         setNewName('');
         setNewNumber(''); 
 
