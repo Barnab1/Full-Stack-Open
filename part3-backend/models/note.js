@@ -23,8 +23,13 @@ mongoose.connect(url,{family:4})
             console.log(`error connecting to MongoDB: ${error.message}`);
         })
 
+/** Database Schemaa with validation rules inforced */
 const noteSchema = new mongoose.Schema({
-    content: String,
+    content: {
+        type: String,
+        minLength: 5,
+        required: true
+    },
     important: Boolean
 });
 

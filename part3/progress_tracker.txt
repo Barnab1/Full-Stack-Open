@@ -29,3 +29,7 @@ Still working on the section "Using database in route handler". I'm working on t
 The insert operation worked succesfully
 
 I'm currently working on the update operations
+
+##15/05/2026
+I completed every exercices on this part.
+Next challenge is about deploying database backend to production

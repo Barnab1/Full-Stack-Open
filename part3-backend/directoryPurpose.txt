@@ -1,0 +1,9 @@
+Hi Barnabé AGUEH working here 😊
+
+This directory help me follow the course along.
+
+I create two different diirectory for each course part:
+- one to follow the course,
+- and one to practice exercises.
+
+This directory is the part3 course directory and the exercise directory is "part3"

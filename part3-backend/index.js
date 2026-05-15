@@ -70,19 +70,9 @@ app.get('/api/notes/:id', (request, response)=>{
     response.json(`Note not found`);
   })
 })
-/**generatedId() 
- * 
- * Helper function used to generate new inserted note Id
-*/
-const generatedId = ()=>{
-  const maxId = notes.length > 0 ? 
-    Math.max(...notes.map(n => Number(n.id))) : 0;
-  
-  return String(maxId +1);
-}
 
 /**Note posting function */
-app.post('/api/notes',(request, response)=>{
+app.post('/api/notes',(request, response,next)=>{
 
   //fetching the request body
   const body = request.body;
@@ -100,16 +90,32 @@ const note = new Note({
 })
 
 
-  note.save().then(savedNote=>{
+  note.save()
+      .then(savedNote=>{
     response.json(savedNote);
-  })
+  })  .catch(error=> next(error))
 })
 
+/**
+ * Error Handler
+ */
 const unknownEndpoint = (request, response)=>{
   response.status(404).send({error: 'unknown endpoint'});
 }
 
 app.use(unknownEndpoint);
+
+const errorHandler = (error, request, response, next)=>{
+  console.log(error.message);
+  if(error.name === "CastError"){
+    return response.status(400).send({error: 'malformatted id'});
+  }else if(error.name === "ValidationError"){
+    return response.status(400).json({error: error.message})
+  }
+  next(error);
+}
+
+app.use(errorHandler);
 
 const PORT = config.PORT;
 app.listen(PORT,()=>{
