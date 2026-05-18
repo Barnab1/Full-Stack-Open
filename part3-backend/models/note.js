@@ -45,4 +45,3 @@ noteSchema.set('toJSON',{
 
 export default mongoose.model('Note', noteSchema);
 
-

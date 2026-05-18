@@ -1,10 +1,10 @@
-GET https://cuddly-meme-456pqv4vgrvc7prw-3001.app.github.dev/api/notes
+GET http://localhost:3001/api/notes
 
 ###
-POST https://cuddly-meme-456pqv4vgrvc7prw-3001.app.github.dev/api/notes
+POST http://localhost:3001/api/notes
 Content-Type: application/json
 
 {
-   "content": "today is the 19/03/2026 in the fiest of Holy Joseph",
+   "content": "today is the 18/05/2026, the third day of Pentocost preparation",
    "important": true
 }

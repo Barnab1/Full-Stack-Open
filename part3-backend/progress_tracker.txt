@@ -1,4 +1,7 @@
 ###15/05/2026
 I come back the note App which is not currently working.
 
-I will on the index.js file to make it work again
+I work will on the index.js file to make it work again
+### 18/05/2026
+The app is working again.
+Next steps inlude: adding others CRUD operations and insuring the app deployed is perfectly working 
