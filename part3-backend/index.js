@@ -61,15 +61,17 @@ app.get('/api/notes',(request, response)=>{
 
 /** Specific Id finding*/
 
-app.get('/api/notes/:id', (request, response)=>{
+app.get('/api/notes/:id', (request, response, next) => {
   Note.findById(request.params.id)
-  .then(note=>{
-    response.json(note);
-  })
-  .catch(error=>{
-    response.json(`Note not found`);
-  })
-})
+    .then(note => {
+      if (note) {
+        response.json(note);
+      } else {
+        response.status(404).json({ error: 'note not found' });
+      }
+    })
+    .catch(error => next(error));
+});
 
 /**Note posting function */
 app.post('/api/notes',(request, response,next)=>{
@@ -95,6 +97,30 @@ const note = new Note({
     response.json(savedNote);
   })  .catch(error=> next(error))
 })
+
+/**Note deletion */
+app.delete('/api/notes/:id',(request,response, next)=>{
+  Note.findByIdAndDelete(request.params.id)
+      .then(result=> response.status(204).end())
+      .catch(error=>next(error))
+})
+
+/**Note updating */
+app.put('/api/notes/:id', (request, response, next) => {
+  const { content, important } = request.body;
+
+  Note.findByIdAndUpdate(request.params.id)
+    .then(note => {
+      if (!note){
+        response.status(404).json({ error: 'note not found' });
+      }
+      note.content = content;
+      note.important = important;
+
+      note.save().then(updatedNote=>response.json(updatedNote));
+    })
+    .catch(error => next(error));
+});
 
 /**
  * Error Handler

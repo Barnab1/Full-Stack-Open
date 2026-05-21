@@ -1,0 +1,26 @@
+GET http://localhost:3001/api/notes
+
+###
+
+GET http://localhost:3001/api/notes/69bba537c5d910f1b777bb49
+
+###
+POST http://localhost:3001/api/notes
+Content-Type: application/json
+
+{
+   "content": "today is the 18/05/2026, the third day of Pentocost preparation",
+   "important": true
+}
+
+###  DELETING NOTE
+DELETE  http://localhost:3001/api/notes/69bba537c5d910f1b777bb49
+
+###  UPDATING NOTE
+PUT  http://localhost:3001/api/notes/696a185324b6ca8d821af80c
+Content-Type: application/json
+
+{
+   "content": "HTML is easy and fine; right ? Flutter too",
+   "important" : true
+}
