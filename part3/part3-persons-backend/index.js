@@ -1,5 +1,11 @@
+/**
+ * Backend file used in production
+ */
+import 'dotenv/config';
 import express from 'express';
 import morgan from 'morgan';
+import Person from '../part3/models/persons.js';
+import cors from 'cors'; //Enable external connections
 
 import {fileURLToPath} from 'url';
 import {dirname, join} from 'path';
@@ -12,24 +18,27 @@ const BUILD_PATH = join(__dirname, 'dist');
 
 const app = express();
 
+ 
+//CONNECTING THE BACKEND TO FRONT END
+//This section refers to middleware and the right way to use it in applications
+
 app.use(express.json());
 
 app.use(express.static(BUILD_PATH));
 
+app.use(cors());
 
-morgan.token('post-body', function (request) {
-  //Only log the console if the request method is POST
+/*
+morgan.token('post-body', (request) {
   if(request.method === "POST"){
     return JSON.stringify(request.body);
   }
-
-  return ""; //return empty on other methods
 })
-
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :post-body'));
+*/
 
 
-let persons = [
+let localPersons = [
     { 
       "id": "1",
       "name": "Arto Hellas", 
@@ -52,84 +61,85 @@ let persons = [
     }
 ]
 
-const output = (people, date)=>{
-  return `<p>Phonebook has info for ${people} people</p><p>${date}</p>`
-}
 
-app.get("/",(request, response)=>{
+//Database Integration
 
-    const numberOfEntry = persons.length;
-    
-    const currentDate = new Date();
-    response.send(output(numberOfEntry,currentDate));
-
-})
-
+//Reading database entries
 app.get("/api/persons",(request, response)=>{
-        response.json(persons);
+        Person.find({})
+        .then(persons=>{
+          response.json(persons)
+        })
+        .catch(error=> response.json(`Look at those people, while we bring more, ${localPersons}`));
 })
 
-app.get('/api/persons/:id',(request, response)=>{
+//Reading specific information
+app.get('/api/persons/:id',(request, response,next)=>{
   const id = request.params.id;
-  
-  const person = persons.find(person => person.id === id);
-    if(person){
-  response.json(person);
-    }else{
-      response.status(404).end();
-    }
+
+  Person.findById(id)
+  .then(person=>{
+    response.json(person);})
+  .catch(error=>next(error))
 })
 
-app.delete('/api/persons/:id',(request, response)=>{
+//Deletion functionality
+
+app.delete('/api/persons/:id',(request, response,next)=>{
 
   const id = request.params.id;
-  console.log("The id is: ",id);
-  persons = persons.filter(person => person.id !== id);
-
-  response.status(204).end();
+  Person.findByIdAndDelete(id)
+        .then(result=> response.status(204).end)
+        .catch(error=>next(error))
 })
 
-const generatedId = ()=>{
-  const maxId = Math.floor((Math.random() *1000));
 
-  return String(maxId + 1);
-}              
+/**Inserting new item */             
 
 app.post('/api/persons',(request, response)=>{
   const body= request.body;
-
-  //console.log('Here is the requested body', body);
 
   if(!body){
     return response.status(400).json({'error':"content missing"});
   }
 
 // creating a new entry
-  const newPerson = {
-    'id': generatedId(),
+  const newPerson = new Person({
     'name':body.name,
     'number':body.number
-  }
+  })
 
-//Checking name or number 
+//Checking name or number
+ 
   if(newPerson.name == "" || newPerson.number == "" ){
     return response.status(400).json({'error':"Please fill in both name and number"});
   }
 
-  //ending the session  if the name already exist
-  const isNameExisting = persons.find(people => people.name == newPerson.name);
+newPerson.save()
+          .then(savedPerson=> response.json(savedPerson))
+          .catch(error=> response.json(error))
+})
 
-  //console.log(isNameExisting);
-  if(isNameExisting != undefined){
+/**End Person Insertion section*/
 
-    return response.status(400).json({'error':"name must be unique"})
+//Update operations
+app.put('/api/persons/:id',(request, response, next)=>{
+  const {name, number} = request.body;
+  
+  if (!name || !number) {
+    return response.status(400).json({ error: 'name and number are required' });
   }
+  
+  Person.findById(request.params.id)
+                  .then(person=>{
+                    if(!person) return response.status(404).json({ error: 'person not found' });
+                      //updating entries
+                    person.name = name;
+                    person.number = number;
 
-//concatenating the anwser and following the best practice of just sending
-//back the newly created resource only
-
-  persons = persons.concat(newPerson);
-  response.json(newPerson);
+                    return person.save().then(updatedPerson=> response.json(updatedPerson));
+                  })
+                  .catch(error=>next(error))
 })
 
 app.use((request, response, next) => {
@@ -142,6 +152,26 @@ app.use((request, response, next) => {
         next();
     }
 });
+
+const unknownEndpoint = (request, response)=>{
+    response.status(400).send({error: 'unknown endpoint'});
+}
+
+//Handler of request with unknow endpoint
+app.use(unknownEndpoint);
+
+const errorHandler = (error, request, response,next)=>{
+  
+  console.log(error.message);
+  if(error.name === "CastError"){
+    return response.status(400).send({error :'malformatted id'})
+  }
+  next(error)
+}
+
+//Handler of request that result in errors
+app.use(errorHandler);
+
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, ()=>{

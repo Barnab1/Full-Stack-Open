@@ -33,3 +33,7 @@ I'm currently working on the update operations
 ##15/05/2026
 I completed every exercices on this part.
 Next challenge is about deploying database backend to production
+
+##03/06/2026
+Still trying to deploy database to production. I'm currently working
+on the remote files located in the "part3-persons-backend" folder

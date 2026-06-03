@@ -5,3 +5,6 @@ I work will on the index.js file to make it work again
 ### 18/05/2026
 The app is working again.
 Next steps inlude: adding others CRUD operations and insuring the app deployed is perfectly working 
+
+###21/05/2026
+I added remaining CRUD operations : deleting and updating note

@@ -9,7 +9,7 @@ POST http://localhost:3001/api/notes
 Content-Type: application/json
 
 {
-   "content": "today is the 18/05/2026, the third day of Pentocost preparation",
+   "content": "test",
    "important": true
 }
 
