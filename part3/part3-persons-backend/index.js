@@ -4,7 +4,7 @@
 import 'dotenv/config';
 import express from 'express';
 import morgan from 'morgan';
-import Person from '../part3/models/persons.js';
+import Person from 'models/persons.js';
 import cors from 'cors'; //Enable external connections
 
 import {fileURLToPath} from 'url';
