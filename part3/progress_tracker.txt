@@ -35,5 +35,11 @@ I completed every exercices on this part.
 Next challenge is about deploying database backend to production
 
 ##03/06/2026
-Still trying to deploy database to production. I'm currently working
+Still trying to deploy database integration to production. I'm currently working
 on the remote files located in the "part3-persons-backend" folder
+###11/06/2026
+I succesfully deployed the database integration to production (Render)
+
+###12/06/2026
+I improved the frontend part (update and create) by separating them in two differents function instead of one.
+But the frontend present a crucial issue: errors message about database interaction don't show up

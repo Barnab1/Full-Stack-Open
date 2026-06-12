@@ -45,14 +45,59 @@ const App = () => {
 useEffect(hook,[]);
 
   const handleNewName = (event)=>{
-    console.log(event.target.value);
     setNewName(event.target.value);
   }
   
    const handleNewNumber = (event)=>{
-    console.log(event.target.value);
     setNewNumber(event.target.value);
   }
+
+  /**
+   * Update existing people's information
+   */
+  const updatePeople = ()=>{
+
+   const updateConfirm = window.confirm(`${newName} is already added to phonebook, replace the old number with the new one`);
+
+    if(updateConfirm){
+      const updateData = {name: newName, number: newNumber};
+
+      personService
+      .update(id, updateData)
+      .then(returnedPerson =>{
+        setPersons(persons.map(person=> person.id === id ? returnedPerson: person));
+        setNewName('');
+        setNewNumber(''); 
+
+        showImprovedMessage('Phone number updated','notification');
+      })
+      .catch(error=> console.log(error));
+      }else{
+        setNewName('');
+        setNewNumber(''); 
+      }              
+  }
+
+  /**
+   * Creating new people
+   */
+const createPeople = ()=>{
+   const newNameObj = {
+    name: newName,
+    number: newNumber
+  }
+
+personService.create(newNameObj)
+.then((newlyCreatedObj)=>{
+
+  setPersons(persons.concat(newlyCreatedObj));
+  setFilteredPersons(persons.concat(newlyCreatedObj));
+  setNewName('');
+  setNewNumber('');
+ showImprovedMessage(`Added ${newName}`,'notification'); 
+})
+.catch(error=> console.log(error.response.data.error));
+}
 
   /**
    * Add new user
@@ -71,41 +116,10 @@ useEffect(hook,[]);
   if(existingPersonObj){
 
   const {id, name, number} = existingPersonObj;
+      updatePeople();
 
-   const updateConfirm = window.confirm(`${newName} is already added to phonebook, replace the old number with the new one`);
-
-    if(updateConfirm){
-      const updateData = {name: newName, number: newNumber};
-
-      personService
-      .update(id, updateData)
-      .then(returnedPerson =>{
-        setPersons(persons.map(person=> person.id === id ? returnedPerson: person));
-        setNewName('');
-        setNewNumber(''); 
-
-        showImprovedMessage('Phone number updated','notification');
-                              })
-                    }else{
-        setNewName('');
-        setNewNumber(''); 
-                    }
-                  }else{
-  const newNameObj = {
-    name: newName,
-    number: newNumber
-  }
-
-personService.create(newNameObj)
-.then((newlyCreatedObj)=>{
-
-  setPersons(persons.concat(newlyCreatedObj));
-  setFilteredPersons(persons.concat(newlyCreatedObj));
-  setNewName('');
-  setNewNumber('');
- showImprovedMessage(`Added ${newName}`,'notification'); 
-})
-
+   }else{
+  createPeople();
   }
   }
 
